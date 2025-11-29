@@ -1,15 +1,27 @@
 server:
-  port: 8082
+  port: 8083   # choose any port, 8083 recommended
 
 spring:
   application:
-    name: question-service
+    name: QUESTION-SERVICE
 
 eureka:
   client:
+    register-with-eureka: true
+    fetch-registry: true
     service-url:
       defaultZone: http://localhost:8761/eureka/
+
+  instance:
+    prefer-ip-address: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
 
 logging:
   level:
     root: INFO
+    org.springframework: INFO
