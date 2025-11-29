@@ -7,5 +7,20 @@ spring:
 
 eureka:
   client:
-    register-with-eureka: false
-    fetch-registry: false
+    register-with-eureka: false   # Eureka server never registers itself
+    fetch-registry: false         # Eureka server never fetches other registries
+
+  instance:
+    hostname: localhost
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+logging:
+  level:
+    org.springframework.cloud.netflix.eureka: INFO
+    com.netflix.discovery: INFO
+    root: INFO
