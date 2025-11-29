@@ -1,25 +1,39 @@
 server:
-  port: 8081
+  port: 8082
 
 spring:
   application:
-    name: quiz-service
+    name: QUIZ-SERVICE
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/quizdb
+    username: root
+    password: root
+
+  jpa:
+    hibernate:
+      ddl-auto: update
 
 eureka:
   client:
+    register-with-eureka: true
+    fetch-registry: true
     service-url:
       defaultZone: http://localhost:8761/eureka/
 
 resilience4j:
   circuitbreaker:
     instances:
-      questionServiceBreaker:
-        slidingWindowSize: 10
-        waitDurationInOpenState: 5s
-        failureRateThreshold: 50
-        permittedNumberOfCallsInHalfOpenState: 3
+      questionServiceCB:
         registerHealthIndicator: true
+        failureRateThreshold: 50
+        slowCallRateThreshold: 60
+        slowCallDurationThreshold: 5s
+        slidingWindowSize: 10
+        permittedNumberOfCallsInHalfOpenState: 3
+        minimumNumberOfCalls: 5
 
-logging:
-  level:
-    root: INFO
+  timelimiter:
+    instances:
+      questionServiceCB:
+        timeoutDuration: 5s
